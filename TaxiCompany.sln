@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.Domain", "TaxiCompany\TaxiCompany.Domain.csproj", "{C7277B42-9F36-421B-9014-8D6EC37BB011}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.Test", "TaxiCompany.Test\TaxiCompany.Test.csproj", "{641F1337-CF1D-4BC4-BD06-D427735DBFD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.Test", "TaxiCompany.Test\TaxiCompany.Test.csproj", "{7D04C498-55C8-4A53-87A8-E8C9DDD7C77B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.Client", "TaxiCompany.Program\TaxiCompany.Client.csproj", "{A0B5B634-32C6-403B-8CDA-6992E8A4AD12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.WebApi", "TaxiCompany.WebApi\TaxiCompany.WebApi.csproj", "{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{C7277B42-9F36-421B-9014-8D6EC37BB011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7277B42-9F36-421B-9014-8D6EC37BB011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7277B42-9F36-421B-9014-8D6EC37BB011}.Release|Any CPU.Build.0 = Release|Any CPU
-		{641F1337-CF1D-4BC4-BD06-D427735DBFD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{641F1337-CF1D-4BC4-BD06-D427735DBFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{641F1337-CF1D-4BC4-BD06-D427735DBFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{641F1337-CF1D-4BC4-BD06-D427735DBFD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0B5B634-32C6-403B-8CDA-6992E8A4AD12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0B5B634-32C6-403B-8CDA-6992E8A4AD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0B5B634-32C6-403B-8CDA-6992E8A4AD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0B5B634-32C6-403B-8CDA-6992E8A4AD12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D04C498-55C8-4A53-87A8-E8C9DDD7C77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D04C498-55C8-4A53-87A8-E8C9DDD7C77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D04C498-55C8-4A53-87A8-E8C9DDD7C77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D04C498-55C8-4A53-87A8-E8C9DDD7C77B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
