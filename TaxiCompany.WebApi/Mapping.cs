@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TaxiCompany.Domain;
+using TaxiCompany.Domain.Models;
 using TaxiCompany.WebApi.Dto;
 
 namespace TaxiCompany.WebApi;
@@ -8,6 +8,9 @@ namespace TaxiCompany.WebApi;
 /// </summary>
 public class Mapping : Profile
 {
+    /// <summary>
+    /// Автомаппинг
+    /// </summary>
     public Mapping()
     {
         CreateMap<Car, CarDtoPost>().ReverseMap();

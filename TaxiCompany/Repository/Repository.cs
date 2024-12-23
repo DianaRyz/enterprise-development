@@ -1,24 +1,23 @@
 ﻿using System.Diagnostics;
+using TaxiCompany.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaxiCompany.Domain.Repository;
 /// <summary>
 /// Репозиторий для работы с данными
 /// Предоставляет методы для выполнения операций CRUD (создание, чтение, обновление, удаление)
 /// </summary>
-public class Repository : IRepository
+public class Repository(TaxiCompanyContext context) : IRepository
 {
-    private readonly List<Car> _cars = [];
-    private readonly List<Driver> _drivers = [];
-    private readonly List<Trip> _trips = [];
-    private readonly List<User> _users = [];
-
     /// <inheritdoc />
     public bool DeleteCar(int id)
     {
         var car = GetCar(id);
         if (car == null)
             return false;
-        _cars.Remove(car);
+
+        context.Cars.Remove(car);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
@@ -27,7 +26,8 @@ public class Repository : IRepository
         var driver = GetDriver(id);
         if (driver == null)
             return false;
-        _drivers.Remove(driver);
+        context.Drivers.Remove(driver);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
@@ -36,7 +36,8 @@ public class Repository : IRepository
         var trip = GetTrip(id);
         if (trip == null)
             return false;
-        _trips.Remove(trip);
+        context.Trips.Remove(trip);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
@@ -45,107 +46,95 @@ public class Repository : IRepository
         var user = GetUser(id);
         if (user == null)
             return false;
-        _users.Remove(user);
+        context.Users.Remove(user);
+        context.SaveChanges();
         return true;
     }
 
     /// <inheritdoc />
-    public Car? GetCar(int id) => _cars.Find(c => c.CarId == id);
+    public Car? GetCar(int id) => context.Cars.FirstOrDefault(c => c.CarId == id);
     /// <inheritdoc />
-    public IEnumerable<Car> GetCars() => _cars;
+    public IEnumerable<Car> GetCars() => context.Cars.ToList();
     /// <inheritdoc />
-    public Driver? GetDriver(int id) => _drivers.Find(d => d.DriverId == id);
+    public Driver? GetDriver(int id) => context.Drivers.FirstOrDefault(d => d.DriverId == id);
     /// <inheritdoc />
-    public IEnumerable<Driver> GetDrivers() => _drivers;
+    public IEnumerable<Driver> GetDrivers() => context.Drivers.ToList();
     /// <inheritdoc />
-    public Trip? GetTrip(int id) => _trips.Find(t => t.TripId == id);
+    public Trip? GetTrip(int id) => context.Trips.FirstOrDefault(t => t.TripId == id);
     /// <inheritdoc />
-    public IEnumerable<Trip> GetTrips() => _trips;
+    public IEnumerable<Trip> GetTrips() => context.Trips.ToList();
     /// <inheritdoc />
-    public User? GetUser(int id) => _users.Find(u => u.UserId == id);
+    public User? GetUser(int id) => context.Users.FirstOrDefault(u => u.UserId == id);
     /// <inheritdoc />
-    public IEnumerable<User> GetUsers() => _users;
+    public IEnumerable<User> GetUsers() => context.Users.ToList();
 
     /// <inheritdoc />
     public int PostCar(Car car)
     {
-        var newId = _cars.Count > 0 ? _cars.Max(g => g.CarId) + 1 : 1;
-        car.CarId = newId;
-        _cars.Add(car);
-        return newId;
+        context.Cars.Add(car);
+        context.SaveChanges();
+        return car.CarId;
     }
     /// <inheritdoc />
     public int PostDriver(Driver driver)
     {
-        var newId = _drivers.Count > 0 ? _drivers.Max(g => g.DriverId) + 1 : 1;
-        driver.DriverId = newId;
-        _drivers.Add(driver);
-        return newId;
+        context.Drivers.Add(driver);
+        context.SaveChanges();
+        return driver.DriverId;
     }
     /// <inheritdoc />
     public int PostTrip(Trip trip)
     {
-        var newId = _trips.Count > 0 ? _trips.Max(g => g.TripId) + 1 : 1;
-        trip.TripId = newId;
-        _trips.Add(trip);
-        return newId;
+        context.Trips.Add(trip);
+        context.SaveChanges();
+        return trip.TripId;
     }
     /// <inheritdoc />
     public int PostUser(User user)
     {
-        var newId = _users.Count > 0 ? _users.Max(g => g.UserId) + 1 : 1;
-        user.UserId = newId;
-        _users.Add(user);
-        return newId;
+        context.Users.Add(user);
+        context.SaveChanges();
+        return user.UserId;
     }
+
     /// <inheritdoc />
-    public bool PutCar(int id, Car car)
+    public bool PutCar(Car car)
     {
-        var oldValue = GetCar(id);
+        var oldValue = GetCar(car.CarId);
         if (oldValue == null)
             return false;
-        oldValue.Colour = car.Colour;
-        oldValue.Model = car.Model;
-        oldValue.StateNumber = car.StateNumber;
-        oldValue.AssignedDriverId = car.AssignedDriverId;
+        context.Entry(oldValue).CurrentValues.SetValues(car);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
-    public bool PutDriver(int id, Driver driver)
+    public bool PutDriver(Driver driver)
     {
-        var oldValue = GetDriver(id);
+        var oldValue = GetDriver(driver.DriverId);
         if (oldValue == null)
             return false;
-        oldValue.FullName = driver.FullName;
-        oldValue.PhoneNumber = driver.PhoneNumber;
-        oldValue.Passport = driver.Passport;
-        oldValue.Address = driver.Address;
-        oldValue.AssignedCarId = driver.AssignedCarId;
+        context.Entry(oldValue).CurrentValues.SetValues(driver);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
-    public bool PutTrip(int id, Trip trip)
+    public bool PutTrip(Trip trip)
     {
-        var oldValue = GetTrip(id);
+        var oldValue = GetTrip(trip.TripId);
         if (oldValue == null)
             return false;
-        oldValue.Departure = trip.Departure;
-        oldValue.Destination = trip.Destination;
-        oldValue.Date = trip.Date;
-        oldValue.DrivingTime = trip.DrivingTime;
-        oldValue.Cost = trip.Cost;
-        oldValue.AssignedUserId = trip.AssignedUserId;
-        oldValue.AssignedCarId = trip.AssignedCarId;
+        context.Entry(oldValue).CurrentValues.SetValues(trip);
+        context.SaveChanges();
         return true;
     }
     /// <inheritdoc />
-    public bool PutUser(int id, User user)
+    public bool PutUser(User user)
     {
-        var oldValue = GetUser(id);
+        var oldValue = GetUser(user.UserId);
         if (oldValue == null)
             return false;
-        oldValue.FullName = user.FullName;
-        oldValue.PhoneNumber = user.PhoneNumber;
+        context.Entry(oldValue).CurrentValues.SetValues(user);
+        context.SaveChanges();
         return true;
     }
 }

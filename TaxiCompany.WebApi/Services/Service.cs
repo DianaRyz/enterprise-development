@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using System.Diagnostics;
-using TaxiCompany.Domain;
+using TaxiCompany.Domain.Models;
 using TaxiCompany.Domain.Repository;
 using TaxiCompany.WebApi.Dto;
 
@@ -73,7 +73,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             if (driver != null)
             {
                 driver.AssignedCarId = newCarId;
-                _repository.PutDriver(driver.DriverId, driver); 
+                _repository.PutDriver(driver); 
             }
         }
 
@@ -91,7 +91,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             if (car != null)
             {
                 car.AssignedDriverId = newDriverId;
-                _repository.PutCar(car.CarId, car); 
+                _repository.PutCar(car); 
             }
         }
 
@@ -117,7 +117,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             return null;
 
         var updatedCar = _mapper.Map(putDto, oldValue);
-        _repository.PutCar(id, updatedCar);
+        _repository.PutCar(updatedCar);
         return _mapper.Map<CarDtoGet>(updatedCar);
     }
     /// <inheritdoc />
@@ -128,7 +128,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             return null;
 
         var updatedDriver = _mapper.Map(putDto, oldValue);
-        _repository.PutDriver(id, updatedDriver);
+        _repository.PutDriver(updatedDriver);
         return _mapper.Map<DriverDtoGet>(updatedDriver);
     }
     /// <inheritdoc />
@@ -139,7 +139,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             return null;
 
         var updatedTrip = _mapper.Map(putDto, oldValue);
-        _repository.PutTrip(id, updatedTrip);
+        _repository.PutTrip(updatedTrip);
         return _mapper.Map<TripDtoGet>(updatedTrip);
     }
     /// <inheritdoc />
@@ -150,7 +150,7 @@ public class Service(IMapper _mapper, IRepository _repository) : IService
             return null;
 
         var updatedUser = _mapper.Map(putDto, oldValue);
-        _repository.PutUser(id, updatedUser);
+        _repository.PutUser(updatedUser);
         return _mapper.Map<UserDtoGet>(updatedUser);
     }
     /// <inheritdoc />

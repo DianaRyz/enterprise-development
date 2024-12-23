@@ -1,5 +1,7 @@
 ﻿namespace TaxiCompany.WebApi.Dto;
-
+/// <summary>
+/// DTO сущность User для Get запросов
+/// </summary>
 public class UserDtoGet
 {
     /// <summary>

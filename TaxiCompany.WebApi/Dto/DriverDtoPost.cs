@@ -1,5 +1,7 @@
 ﻿namespace TaxiCompany.WebApi.Dto;
-
+/// <summary>
+/// DTO сущность Driver для Post запросов
+/// </summary>
 public class DriverDtoPost
 {
     /// <summary>

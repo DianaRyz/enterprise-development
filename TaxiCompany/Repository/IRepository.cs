@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaxiCompany.Domain.Models;
 
 namespace TaxiCompany.Domain.Repository;
 /// <summary>
@@ -30,10 +31,9 @@ public interface IRepository
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="car"></param>
     /// <returns>Обновленный автомобиль</returns>
-    public bool PutCar(int id, Car car);
+    public bool PutCar(Car car);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
@@ -60,10 +60,9 @@ public interface IRepository
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="driver"></param>
     /// <returns>Обновленный водитель</returns>
-    public bool PutDriver(int id, Driver driver);
+    public bool PutDriver(Driver driver);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
@@ -90,10 +89,9 @@ public interface IRepository
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="trip"></param>
     /// <returns>Обновленная поездка</returns>
-    public bool PutTrip(int id, Trip trip);
+    public bool PutTrip(Trip trip);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
@@ -120,10 +118,9 @@ public interface IRepository
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="user"></param>
     /// <returns>Обновленный клиент</returns>
-    public bool PutUser(int id, User user);
+    public bool PutUser(User user);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>

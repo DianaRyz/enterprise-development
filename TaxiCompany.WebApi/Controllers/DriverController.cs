@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
-using TaxiCompany.Domain;
+using TaxiCompany.Domain.Models;
 using TaxiCompany.Domain.Repository;
 using TaxiCompany.WebApi.Dto;
 using TaxiCompany.WebApi.Services;

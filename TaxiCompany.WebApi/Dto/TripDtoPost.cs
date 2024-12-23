@@ -1,7 +1,12 @@
 ﻿namespace TaxiCompany.WebApi.Dto;
-
+/// <summary>
+/// DTO сущность Trip для Post запросов
+/// </summary>
 public class TripDtoPost
 {
+    /// <summary>
+    /// Начальный пункт
+    /// </summary>
     public required string Departure { get; set; }
     /// <summary>
     /// Пункт назначения

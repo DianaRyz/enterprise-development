@@ -1,5 +1,7 @@
 ﻿namespace TaxiCompany.WebApi.Dto;
-
+/// <summary>
+/// DTO сущность User для Post запросов
+/// </summary>
 public class UserDtoPost
 {
     /// <summary>
