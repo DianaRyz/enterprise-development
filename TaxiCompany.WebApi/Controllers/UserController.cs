@@ -21,7 +21,7 @@ public class UserController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список клиентов</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<User>> Get()
+    public ActionResult<IEnumerable<UserDtoGet>> Get()
     {
         return Ok(service.GetUsers());
     }
@@ -32,7 +32,7 @@ public class UserController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Клиент</returns>
     [HttpGet("{id}")]
-    public ActionResult<User> Get(int id)
+    public ActionResult<UserDtoGet> Get(int id)
     {
         var user = service.GetUser(id);
         if (user == null) 

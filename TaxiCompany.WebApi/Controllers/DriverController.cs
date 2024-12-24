@@ -21,7 +21,7 @@ public class DriverController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список водителей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<Driver>> Get()
+    public ActionResult<IEnumerable<DriverDtoGet>> Get()
     {
         return Ok(service.GetDrivers());
     }
@@ -32,7 +32,7 @@ public class DriverController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Водитель</returns>
     [HttpGet("{id}")]
-    public ActionResult<Driver> Get(int id)
+    public ActionResult<DriverDtoGet> Get(int id)
     {
         var driver = service.GetDriver(id);
         if (driver == null) 

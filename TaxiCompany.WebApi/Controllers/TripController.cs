@@ -21,7 +21,7 @@ public class TripController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список поездок</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<Trip>> Get()
+    public ActionResult<IEnumerable<TripDtoGet>> Get()
     {
         return Ok(service.GetTrips());
     }
@@ -32,7 +32,7 @@ public class TripController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Поездка</returns>
     [HttpGet("{id}")]
-    public ActionResult<Trip> Get(int id)
+    public ActionResult<TripDtoGet> Get(int id)
     {
         var trip = service.GetTrip(id);
         if (trip == null) 

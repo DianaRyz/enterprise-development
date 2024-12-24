@@ -21,7 +21,7 @@ public class CarController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список автомобилей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<Car>> Get()
+    public ActionResult<IEnumerable<CarDtoGet>> Get()
     {
         return Ok(service.GetCars());
     }
@@ -32,7 +32,7 @@ public class CarController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Автомобиль</returns>
     [HttpGet("{id}")]
-    public ActionResult<Car> Get(int id)
+    public ActionResult<CarDtoGet> Get(int id)
     {
         var car = service.GetCar(id);
         if (car == null) 
