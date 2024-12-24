@@ -21,9 +21,10 @@ public class DriverController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список водителей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<DriverDtoGet>> Get()
+    public async Task<ActionResult<IEnumerable<DriverDtoGet>>> Get()
     {
-        return Ok(service.GetDrivers());
+        var drivers = await service.GetDrivers();
+        return Ok(drivers);
     }
 
     /// <summary>
@@ -32,9 +33,9 @@ public class DriverController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Водитель</returns>
     [HttpGet("{id}")]
-    public ActionResult<DriverDtoGet> Get(int id)
+    public async Task<ActionResult<DriverDtoGet>> Get(int id)
     {
-        var driver = service.GetDriver(id);
+        var driver = await service.GetDriver(id);
         if (driver == null) 
             return NotFound();
         return Ok(driver);
@@ -46,13 +47,13 @@ public class DriverController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Водитель</returns>
     [HttpPost]
-    public ActionResult<DriverDtoGet> Post([FromBody] DriverDtoPost value)
+    public async Task<ActionResult<DriverDtoGet>> Post([FromBody] DriverDtoPost value)
     {
         if (value == null)
             return BadRequest("Driver data is null");
 
-        var newId = service.PostDriver(value);
-        var newDriverDto = service.GetDriver(newId);
+        var newId = await service.PostDriver(value);
+        var newDriverDto = await service.GetDriver(newId);
         return CreatedAtAction(nameof(Get), new { id = newId }, newDriverDto);
     }
 
@@ -63,12 +64,12 @@ public class DriverController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Обновленный водитель</returns>
     [HttpPut("{id}")]
-    public ActionResult<DriverDtoGet> Put(int id, [FromBody] DriverDtoPost value)
+    public async Task<ActionResult<DriverDtoGet>> Put(int id, [FromBody] DriverDtoPost value)
     {
         if (value == null)
             return BadRequest("Driver data is null");
 
-        var updatedDriver = service.PutDriver(id, value);
+        var updatedDriver = await service.PutDriver(id, value);
         if (updatedDriver == null)
             return NotFound($"Driver with id {id} not found");
 
@@ -80,9 +81,10 @@ public class DriverController(IService service) : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        if(!service.DeleteDriver(id))
+        var driver = await service.DeleteDriver(id);
+        if (!driver)
             return NotFound();
         return Ok();
     }

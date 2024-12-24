@@ -21,9 +21,10 @@ public class CarController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список автомобилей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<CarDtoGet>> Get()
+    public async Task<ActionResult<IEnumerable<CarDtoGet>>> Get()
     {
-        return Ok(service.GetCars());
+        var cars = await service.GetCars();
+        return Ok(cars);
     }
 
     /// <summary>
@@ -32,9 +33,9 @@ public class CarController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Автомобиль</returns>
     [HttpGet("{id}")]
-    public ActionResult<CarDtoGet> Get(int id)
+    public async Task<ActionResult<CarDtoGet>> Get(int id)
     {
-        var car = service.GetCar(id);
+        var car = await service.GetCar(id);
         if (car == null) 
             return NotFound();
         return Ok(car);
@@ -46,13 +47,13 @@ public class CarController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Автомобиль</returns>
     [HttpPost]
-    public ActionResult<CarDtoGet> Post([FromBody] CarDtoPost value)
+    public async Task<ActionResult<CarDtoGet>> Post([FromBody] CarDtoPost value)
     {
         if (value == null)
             return BadRequest("Car data is null");
 
-        var newId = service.PostCar(value);
-        var newCarDto = service.GetCar(newId);
+        var newId = await service.PostCar(value);
+        var newCarDto = await service.GetCar(newId);
         return CreatedAtAction(nameof(Get), new { id = newId }, newCarDto);
     }
 
@@ -63,12 +64,12 @@ public class CarController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Обновленный автомобиль</returns>
     [HttpPut("{id}")]
-    public ActionResult<CarDtoGet> Put(int id, [FromBody] CarDtoPost value)
+    public async Task<ActionResult<CarDtoGet>> Put(int id, [FromBody] CarDtoPost value)
     {
         if (value == null)
             return BadRequest("Car data is null");
 
-        var updatedCar = service.PutCar(id, value);
+        var updatedCar = await service.PutCar(id, value);
         if (updatedCar == null)
             return NotFound($"Car with id {id} not found");
 
@@ -80,9 +81,10 @@ public class CarController(IService service) : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        if(!service.DeleteCar(id))
+        var car = await service.DeleteCar(id);
+        if (!car)
             return NotFound();
         return Ok();
     }

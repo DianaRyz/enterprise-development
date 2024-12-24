@@ -21,9 +21,10 @@ public class UserController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список клиентов</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<UserDtoGet>> Get()
+    public async Task<ActionResult<IEnumerable<UserDtoGet>>> Get()
     {
-        return Ok(service.GetUsers());
+        var users = await service.GetUsers();
+        return Ok(users);
     }
 
     /// <summary>
@@ -32,9 +33,9 @@ public class UserController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Клиент</returns>
     [HttpGet("{id}")]
-    public ActionResult<UserDtoGet> Get(int id)
+    public async Task<ActionResult<UserDtoGet>> Get(int id)
     {
-        var user = service.GetUser(id);
+        var user = await service.GetUser(id);
         if (user == null) 
             return NotFound();
         return Ok(user);
@@ -46,13 +47,13 @@ public class UserController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Новый клиент</returns>
     [HttpPost]
-    public ActionResult<UserDtoGet> Post([FromBody] UserDtoPost value)
+    public async Task<ActionResult<UserDtoGet>> Post([FromBody] UserDtoPost value)
     {
         if (value == null)
             return BadRequest("User data is null");
 
-        var newId = service.PostUser(value);
-        var newUserDto = service.GetUser(newId);
+        var newId = await service.PostUser(value);
+        var newUserDto = await service.GetUser(newId);
         return CreatedAtAction(nameof(Get), new { id = newId }, newUserDto);
     }
 
@@ -63,12 +64,12 @@ public class UserController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Клиент</returns>
     [HttpPut("{id}")]
-    public ActionResult<UserDtoGet> Put(int id, [FromBody] UserDtoPost value)
+    public async Task<ActionResult<UserDtoGet>> Put(int id, [FromBody] UserDtoPost value)
     {
         if (value == null)
             return BadRequest("User data is null");
 
-        var updatedUser = service.PutUser(id, value);
+        var updatedUser = await service.PutUser(id, value);
         if (updatedUser == null)
             return NotFound($"User with id {id} not found");
 
@@ -80,9 +81,10 @@ public class UserController(IService service) : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        if(!service.DeleteUser(id))
+        var user = await service.DeleteUser(id);
+        if (!user)
             return NotFound();
         return Ok();
     }

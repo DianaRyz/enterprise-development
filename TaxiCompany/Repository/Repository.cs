@@ -10,131 +10,131 @@ namespace TaxiCompany.Domain.Repository;
 public class Repository(TaxiCompanyContext context) : IRepository
 {
     /// <inheritdoc />
-    public bool DeleteCar(int id)
+    public async Task<bool> DeleteCar(int id)
     {
-        var car = GetCar(id);
+        var car = await GetCar(id);
         if (car == null)
             return false;
 
         context.Cars.Remove(car);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool DeleteDriver(int id)
+    public async Task<bool> DeleteDriver(int id)
     {
-        var driver = GetDriver(id);
+        var driver = await GetDriver(id);
         if (driver == null)
             return false;
         context.Drivers.Remove(driver);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool DeleteTrip(int id)
+    public async Task<bool> DeleteTrip(int id)
     {
-        var trip = GetTrip(id);
+        var trip = await GetTrip(id);
         if (trip == null)
             return false;
         context.Trips.Remove(trip);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool DeleteUser(int id)
+    public async Task<bool> DeleteUser(int id)
     {
-        var user = GetUser(id);
+        var user = await GetUser(id);
         if (user == null)
             return false;
         context.Users.Remove(user);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
 
     /// <inheritdoc />
-    public Car? GetCar(int id) => context.Cars.FirstOrDefault(c => c.CarId == id);
+    public async Task<Car?> GetCar(int id) => await context.Cars.FirstOrDefaultAsync(c => c.CarId == id);
     /// <inheritdoc />
-    public IEnumerable<Car> GetCars() => context.Cars.ToList();
+    public async Task<IEnumerable<Car>> GetCars() => await context.Cars.ToListAsync();
     /// <inheritdoc />
-    public Driver? GetDriver(int id) => context.Drivers.FirstOrDefault(d => d.DriverId == id);
+    public async Task<Driver?> GetDriver(int id) => await context.Drivers.FirstOrDefaultAsync(d => d.DriverId == id);
     /// <inheritdoc />
-    public IEnumerable<Driver> GetDrivers() => context.Drivers.ToList();
+    public async Task<IEnumerable<Driver>> GetDrivers() => await context.Drivers.ToListAsync();
     /// <inheritdoc />
-    public Trip? GetTrip(int id) => context.Trips.FirstOrDefault(t => t.TripId == id);
+    public async Task<Trip?> GetTrip(int id) => await context.Trips.FirstOrDefaultAsync(t => t.TripId == id);
     /// <inheritdoc />
-    public IEnumerable<Trip> GetTrips() => context.Trips.ToList();
+    public async Task<IEnumerable<Trip>> GetTrips() => await context.Trips.ToListAsync();
     /// <inheritdoc />
-    public User? GetUser(int id) => context.Users.FirstOrDefault(u => u.UserId == id);
+    public async Task<User?> GetUser(int id) => await context.Users.FirstOrDefaultAsync(u => u.UserId == id);
     /// <inheritdoc />
-    public IEnumerable<User> GetUsers() => context.Users.ToList();
+    public async Task<IEnumerable<User>> GetUsers() => await context.Users.ToListAsync();
 
     /// <inheritdoc />
-    public int PostCar(Car car)
+    public async Task<int> PostCar(Car car)
     {
-        context.Cars.Add(car);
-        context.SaveChanges();
+        await context.Cars.AddAsync(car);
+        await context.SaveChangesAsync();
         return car.CarId;
     }
     /// <inheritdoc />
-    public int PostDriver(Driver driver)
+    public async Task<int> PostDriver(Driver driver)
     {
-        context.Drivers.Add(driver);
-        context.SaveChanges();
+        await context.Drivers.AddAsync(driver);
+        await context.SaveChangesAsync();
         return driver.DriverId;
     }
     /// <inheritdoc />
-    public int PostTrip(Trip trip)
+    public async Task<int> PostTrip(Trip trip)
     {
-        context.Trips.Add(trip);
-        context.SaveChanges();
+        await context.Trips.AddAsync(trip);
+        await context.SaveChangesAsync();
         return trip.TripId;
     }
     /// <inheritdoc />
-    public int PostUser(User user)
+    public async Task<int> PostUser(User user)
     {
-        context.Users.Add(user);
-        context.SaveChanges();
+        await context.Users.AddAsync(user);
+        await context.SaveChangesAsync();
         return user.UserId;
     }
 
     /// <inheritdoc />
-    public bool PutCar(Car car)
+    public async Task<bool> PutCar(Car car)
     {
-        var oldValue = GetCar(car.CarId);
+        var oldValue = await GetCar(car.CarId);
         if (oldValue == null)
             return false;
         context.Entry(oldValue).CurrentValues.SetValues(car);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool PutDriver(Driver driver)
+    public async Task<bool> PutDriver(Driver driver)
     {
-        var oldValue = GetDriver(driver.DriverId);
+        var oldValue = await GetDriver(driver.DriverId);
         if (oldValue == null)
             return false;
         context.Entry(oldValue).CurrentValues.SetValues(driver);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool PutTrip(Trip trip)
+    public async Task<bool> PutTrip(Trip trip)
     {
-        var oldValue = GetTrip(trip.TripId);
+        var oldValue = await GetTrip(trip.TripId);
         if (oldValue == null)
             return false;
         context.Entry(oldValue).CurrentValues.SetValues(trip);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
     /// <inheritdoc />
-    public bool PutUser(User user)
+    public async Task<bool> PutUser(User user)
     {
-        var oldValue = GetUser(user.UserId);
+        var oldValue = await GetUser(user.UserId);
         if (oldValue == null)
             return false;
         context.Entry(oldValue).CurrentValues.SetValues(user);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return true;
     }
 }

@@ -21,9 +21,10 @@ public class TripController(IService service) : ControllerBase
     /// </summary>
     /// <returns>Список поездок</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<TripDtoGet>> Get()
+    public async Task<ActionResult<IEnumerable<TripDtoGet>>> Get()
     {
-        return Ok(service.GetTrips());
+        var trips = await service.GetTrips();
+        return Ok(trips);
     }
 
     /// <summary>
@@ -32,9 +33,9 @@ public class TripController(IService service) : ControllerBase
     /// <param name="id"></param>
     /// <returns>Поездка</returns>
     [HttpGet("{id}")]
-    public ActionResult<TripDtoGet> Get(int id)
+    public async Task<ActionResult<TripDtoGet>> Get(int id)
     {
-        var trip = service.GetTrip(id);
+        var trip = await service.GetTrip(id);
         if (trip == null) 
             return NotFound();
         return Ok(trip);
@@ -46,13 +47,13 @@ public class TripController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Поездка</returns>
     [HttpPost]
-    public ActionResult<TripDtoGet> Post([FromBody] TripDtoPost value)
+    public async Task<ActionResult<TripDtoGet>> Post([FromBody] TripDtoPost value)
     {
         if (value == null)
             return BadRequest("Trip data is null");
 
-        var newId = service.PostTrip(value);
-        var newTripDto = service.GetTrip(newId);
+        var newId = await service.PostTrip(value);
+        var newTripDto = await service.GetTrip(newId);
         return CreatedAtAction(nameof(Get), new { id = newId }, newTripDto);
     }
 
@@ -63,12 +64,12 @@ public class TripController(IService service) : ControllerBase
     /// <param name="value"></param>
     /// <returns>Обновленная поездка</returns>
     [HttpPut("{id}")]
-    public ActionResult<TripDtoGet> Put(int id, [FromBody] TripDtoPost value)
+    public async Task<ActionResult<TripDtoGet>> Put(int id, [FromBody] TripDtoPost value)
     {
         if (value == null)
             return BadRequest("Trip data is null");
 
-        var updatedTrip = service.PutTrip(id, value);
+        var updatedTrip = await service.PutTrip(id, value);
         if (updatedTrip == null)
             return NotFound($"Trip with id {id} not found");
 
@@ -80,9 +81,10 @@ public class TripController(IService service) : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        if(!service.DeleteTrip(id))
+        var trip = await service.DeleteTrip(id);
+        if (!trip)
             return NotFound();
         return Ok();
     }

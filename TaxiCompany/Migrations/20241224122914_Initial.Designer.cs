@@ -12,7 +12,7 @@ using TaxiCompany.Domain;
 namespace TaxiCompany.Domain.Migrations
 {
     [DbContext(typeof(TaxiCompanyContext))]
-    [Migration("20241223213553_Initial")]
+    [Migration("20241224122914_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

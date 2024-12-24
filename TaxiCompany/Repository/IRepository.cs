@@ -15,115 +15,115 @@ public interface IRepository
     /// Получить все объекты автомобилей
     /// </summary>
     /// <returns>Список автомобилей</returns>
-    public IEnumerable<Car> GetCars();
+    Task<IEnumerable<Car>> GetCars();
     /// <summary>
     /// Получить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
     /// <returns>Автомобиль</returns>
-    public Car? GetCar(int id);
+    Task<Car?> GetCar(int id);
     /// <summary>
     /// Создать новый объект
     /// </summary>
     /// <param name="car"></param>
     /// <returns>Новый автомобиль</returns>
-    public int PostCar(Car car);
+    Task<int> PostCar(Car car);
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
     /// <param name="car"></param>
     /// <returns>Обновленный автомобиль</returns>
-    public bool PutCar(Car car);
+    Task<bool> PutCar(Car car);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteCar(int id);
+    Task<bool> DeleteCar(int id);
 
     /// <summary>
     /// Получить все объекты водителей
     /// </summary>
     /// <returns>Список водителей</returns>
-    public IEnumerable<Driver> GetDrivers();
+    Task<IEnumerable<Driver>> GetDrivers();
     /// <summary>
     /// Получить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
     /// <returns>Водитель</returns>
-    public Driver? GetDriver(int id);
+    Task<Driver?> GetDriver(int id);
     /// <summary>
     /// Создать новый объект
     /// </summary>
     /// <param name="driver"></param>
     /// <returns>Новый водитель</returns>
-    public int PostDriver(Driver driver);
+    Task<int> PostDriver(Driver driver);
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
     /// <param name="driver"></param>
     /// <returns>Обновленный водитель</returns>
-    public bool PutDriver(Driver driver);
+    Task<bool> PutDriver(Driver driver);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteDriver(int id);
+    Task<bool> DeleteDriver(int id);
 
     /// <summary>
     /// Получить все объекты поездок
     /// </summary>
     /// <returns>Список поездок</returns>
-    public IEnumerable<Trip> GetTrips();
+    Task<IEnumerable<Trip>> GetTrips();
     /// <summary>
     /// Получить объект по идентификатору
     /// </summary>
     /// <param name="id">Поездка</param>
     /// <returns></returns>
-    public Trip? GetTrip(int id);
+    Task<Trip?> GetTrip(int id);
     /// <summary>
     /// Создать новый объект
     /// </summary>
     /// <param name="trip"></param>
     /// <returns>Новая поездка</returns>
-    public int PostTrip(Trip trip);
+    Task<int> PostTrip(Trip trip);
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
     /// <param name="trip"></param>
     /// <returns>Обновленная поездка</returns>
-    public bool PutTrip(Trip trip);
+    Task<bool> PutTrip(Trip trip);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteTrip(int id);
+    Task<bool> DeleteTrip(int id);
 
     /// <summary>
     /// Получить все объекты клиентов
     /// </summary>
     /// <returns>Список клиентов</returns>
-    public IEnumerable<User> GetUsers();
+    Task<IEnumerable<User>> GetUsers();
     /// <summary>
     /// Получить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
     /// <returns>Клиент</returns>
-    public User? GetUser(int id);
+    Task<User?> GetUser(int id);
     /// <summary>
     /// Создать новый объект
     /// </summary>
     /// <param name="user"></param>
     /// <returns>Новый клиент</returns>
-    public int PostUser(User user);
+    Task<int> PostUser(User user);
     /// <summary>
     /// Обновить существующий объект
     /// </summary>
     /// <param name="user"></param>
     /// <returns>Обновленный клиент</returns>
-    public bool PutUser(User user);
+    Task<bool> PutUser(User user);
     /// <summary>
     /// Удалить объект по идентификатору
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteUser(int id);
+    Task<bool> DeleteUser(int id);
 }
