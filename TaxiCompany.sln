@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.Test", "TaxiCom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.WebApi", "TaxiCompany.WebApi\TaxiCompany.WebApi.csproj", "{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiCompany.WebApi.Client", "TaxiCompany.WebApi.Client\TaxiCompany.WebApi.Client.csproj", "{7B3C7D5A-6B59-43B9-AEAE-6BAE0056ADED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABB83A90-5E23-4700-8A66-1C5F6735EDE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B3C7D5A-6B59-43B9-AEAE-6BAE0056ADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B3C7D5A-6B59-43B9-AEAE-6BAE0056ADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B3C7D5A-6B59-43B9-AEAE-6BAE0056ADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B3C7D5A-6B59-43B9-AEAE-6BAE0056ADED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

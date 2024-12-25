@@ -1,0 +1,243 @@
+﻿@page "/drivers"
+@inject HttpClient Http
+@using Blazorise
+@using Blazorise.Icons
+@using static Blazorise.Modal
+
+<h3>Drivers</h3>
+
+@if (drivers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Passport</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var driver in drivers)
+            {
+                <tr>
+                    <td>@driver.DriverId</td>
+                    <td>@driver.FullName</td>
+                    <td>@driver.PhoneNumber</td>
+                    <td>@driver.Passport</td>  <!-- Passport -->
+                    <td>@driver.Address</td>   <!-- Address -->
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditDriver(driver.DriverId)">
+                            <Icon Name="IconName.Edit" />
+                        </button>
+                        <button class="btn btn-danger" @onclick="() => DeleteDriver(driver.DriverId)">
+                            <Icon Name="IconName.Delete" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <Button Color="Color.Success" @onclick="ShowAddDriverModal">Add New Driver</Button>
+}
+
+<!-- Modal for Adding New Driver -->
+<Modal @bind-Visible="isAddDriverModalVisible">
+    <ModalHeader>
+        <h5 class="modal-title">Add New Driver</h5>
+    </ModalHeader>
+    <ModalBody>
+        <EditForm Model="@newDriver" OnSubmit="HandleAddDriverSubmit">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <InputText id="fullName" class="form-control" @bind-Value="newDriver.FullName" />
+            </div>
+
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <InputText id="phoneNumber" class="form-control" @bind-Value="newDriver.PhoneNumber" />
+            </div>
+
+            <div class="mb-3">
+                <label for="passport" class="form-label">Passport</label>
+                <InputText id="passport" class="form-control" @bind-Value="newDriver.Passport" />
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <InputText id="address" class="form-control" @bind-Value="newDriver.Address" />
+            </div>
+
+            <Button Color="Color.Success">Save</Button>
+            <Button Color="Color.Secondary" @onclick="CancelAddDriver">Cancel</Button>
+        </EditForm>
+    </ModalBody>
+</Modal>
+
+<!-- Modal for Editing Driver -->
+<Modal @bind-Visible="isEditDriverModalVisible">
+    <ModalHeader>
+        <h5 class="modal-title">Edit Driver</h5>
+    </ModalHeader>
+    <ModalBody>
+        <EditForm Model="@editDriver" OnSubmit="HandleEditDriverSubmit">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <InputText id="fullName" class="form-control" @bind-Value="editDriver.FullName" />
+            </div>
+
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <InputText id="phoneNumber" class="form-control" @bind-Value="editDriver.PhoneNumber" />
+            </div>
+
+            <div class="mb-3">
+                <label for="passport" class="form-label">Passport</label>
+                <InputText id="passport" class="form-control" @bind-Value="editDriver.Passport" />
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <InputText id="address" class="form-control" @bind-Value="editDriver.Address" />
+            </div>
+
+            <Button Color="Color.Success">Save</Button>
+            <Button Color="Color.Secondary" @onclick="CancelEditDriver">Cancel</Button>
+        </EditForm>
+    </ModalBody>
+</Modal>
+
+@code {
+    private ICollection<DriverDtoGet>? drivers;  // Список водителей, получаемых с сервера
+    private DriverDtoPost newDriver = new DriverDtoPost();  // DTO для добавления нового водителя
+    private DriverDtoPost editDriver = new DriverDtoPost();  // DTO для редактирования водителя
+    private bool isAddDriverModalVisible = false;
+    private bool isEditDriverModalVisible = false;
+    private string driverUrl = "api/drivers";  // URL для запросов
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDrivers();
+    }
+
+    private async Task LoadDrivers()
+    {
+        try
+        {
+            // Используем HttpClient для получения списка водителей
+            drivers = await Http.GetFromJsonAsync<List<DriverDtoGet>>(driverUrl);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading drivers: {ex.Message}");
+        }
+    }
+
+    private void ShowAddDriverModal()
+    {
+        newDriver = new DriverDtoPost();  // Сбрасываем модель для нового водителя
+        isAddDriverModalVisible = true;  // Открываем модальное окно для добавления
+    }
+
+    private void EditDriver(int driverId)
+    {
+        // Переносим только данные для редактирования
+        editDriver = new DriverDtoPost
+            {
+                FullName = drivers.FirstOrDefault(d => d.DriverId == driverId)?.FullName,
+                PhoneNumber = drivers.FirstOrDefault(d => d.DriverId == driverId)?.PhoneNumber,
+                Passport = drivers.FirstOrDefault(d => d.DriverId == driverId)?.Passport,
+                Address = drivers.FirstOrDefault(d => d.DriverId == driverId)?.Address,
+                AssignedCarId = drivers.FirstOrDefault(d => d.DriverId == driverId)?.AssignedCarId ?? 0,
+            };
+        isEditDriverModalVisible = true;  // Открываем модальное окно для редактирования
+    }
+
+    private async Task HandleAddDriverSubmit()
+    {
+        try
+        {
+            // Используем HttpClient для отправки данных на сервер
+            var response = await Http.PostAsJsonAsync(driverUrl, newDriver);
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadDrivers();  // Обновляем список водителей
+                isAddDriverModalVisible = false;  // Закрываем окно добавления
+            }
+            else
+            {
+                Console.WriteLine($"Error adding driver: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving driver: {ex.Message}");
+        }
+    }
+
+    private async Task HandleEditDriverSubmit()
+    {
+        try
+        {
+            // Получаем ID из переданного параметра и отправляем его в запросе PUT
+            int driverId = drivers.FirstOrDefault(d => d.FullName == editDriver.FullName)?.DriverId ?? 0;
+
+            if (driverId != 0)
+            {
+                // Используем HttpClient для отправки обновленных данных на сервер
+                var response = await Http.PutAsJsonAsync($"{driverUrl}/{driverId}", editDriver);
+                if (response.IsSuccessStatusCode)
+                {
+                    await LoadDrivers();  // Обновляем список водителей
+                    isEditDriverModalVisible = false;  // Закрываем окно редактирования
+                }
+                else
+                {
+                    Console.WriteLine($"Error updating driver: {response.StatusCode}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating driver: {ex.Message}");
+        }
+    }
+
+    private void CancelAddDriver()
+    {
+        isAddDriverModalVisible = false;  // Закрываем модальное окно добавления без изменений
+    }
+
+    private void CancelEditDriver()
+    {
+        isEditDriverModalVisible = false;  // Закрываем модальное окно редактирования без изменений
+    }
+
+    private async Task DeleteDriver(int driverId)
+    {
+        try
+        {
+            // Используем HttpClient для отправки запроса на удаление водителя
+            var response = await Http.DeleteAsync($"{driverUrl}/{driverId}");
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadDrivers();  // Обновляем список водителей
+            }
+            else
+            {
+                Console.WriteLine($"Error deleting driver: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting driver: {ex.Message}");
+        }
+    }
+}
